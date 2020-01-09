@@ -25,6 +25,7 @@ import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.util.Elements;
 import javax.lang.model.util.Types;
+import javax.tools.Diagnostic;
 
 public class PetAnnotationProcessor extends AbstractProcessor {
 
@@ -50,7 +51,6 @@ public class PetAnnotationProcessor extends AbstractProcessor {
     @Override
     public synchronized void init(ProcessingEnvironment processingEnv) {
         super.init(processingEnv);
-        System.out.println("init");
 
         typeUtils = processingEnv.getTypeUtils();
         messager = processingEnv.getMessager();
@@ -67,6 +67,7 @@ public class PetAnnotationProcessor extends AbstractProcessor {
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
         try {
             System.out.println("process");
+            messager.printMessage(Diagnostic.Kind.NOTE,"process");
             Set<? extends Element> annotationSet = roundEnv.getElementsAnnotatedWith(Pet.class);
             if (annotationSet == null || annotationSet.size() == 0){
                 return false;

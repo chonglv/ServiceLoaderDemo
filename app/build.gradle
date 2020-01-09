@@ -37,6 +37,6 @@ dependencies {
     implementation project(':zoo')
     implementation project(path: ':pet_annotation')
     annotationProcessor project(path: ':pet_annotation_compiler')
-    implementation 'com.google.auto.service:auto-service:1.0-rc4'
+    compileOnly 'com.google.auto.service:auto-service:1.0-rc4'
 
 }

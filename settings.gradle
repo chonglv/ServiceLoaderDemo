@@ -1,2 +1,2 @@
 include ':app', ':pet_cat', ':pet_dog', ':pet_annotation', ':pet_annotation_compiler', ':zoo'
-rootProject.name='LoadDemo'
+rootProject.name='ServiceLoaderDemo'
