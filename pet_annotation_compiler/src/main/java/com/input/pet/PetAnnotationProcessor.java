@@ -66,14 +66,20 @@ public class PetAnnotationProcessor extends AbstractProcessor {
     @Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
         try {
-            System.out.println("process");
-            messager.printMessage(Diagnostic.Kind.NOTE,"process");
+            messager.printMessage(Diagnostic.Kind.NOTE,"process:"+annotations);
+            messager.printMessage(Diagnostic.Kind.NOTE,"process:"+roundEnv);
+            if (annotations == null || annotations.size() == 0){
+                return false;
+            }
             Set<? extends Element> annotationSet = roundEnv.getElementsAnnotatedWith(Pet.class);
             if (annotationSet == null || annotationSet.size() == 0){
                 return false;
             }
+            messager.printMessage(Diagnostic.Kind.NOTE,"process: start");
             ArrayList<String> petNames = new ArrayList<>();
             for (Element element: annotationSet){
+                messager.printMessage(Diagnostic.Kind.NOTE,"process:"+element);
+
                 Pet petAnnotation = element.getAnnotation(Pet.class);
                 String name = petAnnotation.Name();
                 petNames.add(name);
