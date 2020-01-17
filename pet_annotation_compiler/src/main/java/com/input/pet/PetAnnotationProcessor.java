@@ -2,7 +2,6 @@ package com.input.pet;
 
 import com.google.auto.service.AutoService;
 
-import com.input.pet_annotation.Pet;
 import com.squareup.javapoet.AnnotationSpec;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.JavaFile;
@@ -33,6 +32,8 @@ public class PetAnnotationProcessor extends AbstractProcessor {
     private Messager messager;
     private Filer filer;
     private Elements elementUtils;
+    private int times = 0;
+    private static int entry = 0;
 
     @Override
     public Set<String> getSupportedAnnotationTypes() {
@@ -40,6 +41,7 @@ public class PetAnnotationProcessor extends AbstractProcessor {
 
         Set<String> supportTypes = new HashSet<>();
         supportTypes.add(Pet.class.getCanonicalName());
+        supportTypes.add(PetFood.class.getCanonicalName());
         return supportTypes;
     }
 
@@ -68,9 +70,28 @@ public class PetAnnotationProcessor extends AbstractProcessor {
         try {
             messager.printMessage(Diagnostic.Kind.NOTE,"process:"+annotations);
             messager.printMessage(Diagnostic.Kind.NOTE,"process:"+roundEnv);
+            messager.printMessage(Diagnostic.Kind.NOTE,"process: entry:"+entry);
+            messager.printMessage(Diagnostic.Kind.NOTE,"process: times:"+times);
+            entry++;
+            times++;
             if (annotations == null || annotations.size() == 0){
                 return false;
             }
+            messager.printMessage(Diagnostic.Kind.NOTE,"process: +++:");
+
+            Set<? extends Element> foodAnnotationSet = roundEnv.getElementsAnnotatedWith(PetFood.class);
+            messager.printMessage(Diagnostic.Kind.NOTE,"foodAnnotationSet: "+foodAnnotationSet);
+            ArrayList<String> petFoodNames = new ArrayList<>();
+            for (Element element: foodAnnotationSet){
+                messager.printMessage(Diagnostic.Kind.NOTE,"process: food:"+element);
+
+                PetFood foodAnnotation = element.getAnnotation(PetFood.class);
+                String name = foodAnnotation.value();
+                petFoodNames.add(name);
+                messager.printMessage(Diagnostic.Kind.NOTE,"foodAnnotationSet:name: "+name);
+
+            }
+
             Set<? extends Element> annotationSet = roundEnv.getElementsAnnotatedWith(Pet.class);
             if (annotationSet == null || annotationSet.size() == 0){
                 return false;
@@ -78,7 +99,7 @@ public class PetAnnotationProcessor extends AbstractProcessor {
             messager.printMessage(Diagnostic.Kind.NOTE,"process: start");
             ArrayList<String> petNames = new ArrayList<>();
             for (Element element: annotationSet){
-                messager.printMessage(Diagnostic.Kind.NOTE,"process:"+element);
+                messager.printMessage(Diagnostic.Kind.NOTE,"process:pet:"+element);
 
                 Pet petAnnotation = element.getAnnotation(Pet.class);
                 String name = petAnnotation.Name();
@@ -108,7 +129,8 @@ public class PetAnnotationProcessor extends AbstractProcessor {
                 .addMember("value","$T.class", ClassName.get(IPet.class))
                 .build();
 
-        TypeSpec pet = TypeSpec.classBuilder("Pet$"+name)
+//        TypeSpec pet = TypeSpec.classBuilder("Pet$"+name)
+        TypeSpec pet = TypeSpec.classBuilder("Pet$"+System.currentTimeMillis())
                 .addAnnotation(autoService)
                 .addModifiers(Modifier.PUBLIC)
                 .addSuperinterface(IPet.class)
@@ -118,8 +140,9 @@ public class PetAnnotationProcessor extends AbstractProcessor {
         try {
 //            javaFile.writeTo(System.out);
             javaFile.writeTo(filer);
-        } catch (Exception ex){
+        } catch (Throwable ex){
             ex.printStackTrace();
+            messager.printMessage(Diagnostic.Kind.NOTE,"process: ------------");
         }
     }
 }

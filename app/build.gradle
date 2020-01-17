@@ -40,3 +40,16 @@ dependencies {
     compileOnly 'com.google.auto.service:auto-service:1.0-rc4'
 
 }
+
+buildscript {
+    repositories {
+        maven{
+            url uri('../gradle-local')
+        }
+    }
+    dependencies {
+        classpath 'com.pet.register:pet_register:1.0.0'
+    }
+}
+
+apply plugin: 'com.pet.register'

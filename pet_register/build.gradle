@@ -1,0 +1,29 @@
+
+
+//plugins {
+//    id 'java-gradle-plugin'
+//    id 'groovy'
+//}
+apply plugin:'groovy'
+apply plugin:'maven'
+
+//sourceCompatibility = 1.8
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation gradleApi()
+    implementation localGroovy()
+}
+
+group='com.pet.register'
+version='1.0.0'
+
+uploadArchives{
+    repositories {
+        mavenDeployer{
+            repository(url: uri('../gradle-local'))
+        }
+    }
+}
