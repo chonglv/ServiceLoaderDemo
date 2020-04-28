@@ -10,8 +10,8 @@ android {
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
-    android{
-        compileOptions{
+    android {
+        compileOptions {
             sourceCompatibility JavaVersion.VERSION_1_8
             targetCompatibility JavaVersion.VERSION_1_8
         }
@@ -25,6 +25,7 @@ android {
 }
 
 dependencies {
+
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'androidx.appcompat:appcompat:1.0.2'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
@@ -39,17 +40,8 @@ dependencies {
     annotationProcessor project(path: ':pet_annotation_compiler')
     compileOnly 'com.google.auto.service:auto-service:1.0-rc4'
 
-}
 
-buildscript {
-    repositories {
-        maven{
-            url uri('../gradle-local')
-        }
-    }
-    dependencies {
-        classpath 'com.pet.register:pet_register:1.0.0'
-    }
 }
 
 apply plugin: 'com.pet.register'
+

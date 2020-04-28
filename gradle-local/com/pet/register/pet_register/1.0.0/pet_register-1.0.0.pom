@@ -5,4 +5,18 @@
   <groupId>com.pet.register</groupId>
   <artifactId>pet_register</artifactId>
   <version>1.0.0</version>
+  <dependencies>
+    <dependency>
+      <groupId>com.android.tools.build</groupId>
+      <artifactId>gradle</artifactId>
+      <version>3.1.4</version>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.android.tools.build</groupId>
+      <artifactId>gradle-api</artifactId>
+      <version>3.1.4</version>
+      <scope>runtime</scope>
+    </dependency>
+  </dependencies>
 </project>

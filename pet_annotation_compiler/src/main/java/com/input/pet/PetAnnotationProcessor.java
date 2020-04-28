@@ -78,28 +78,32 @@ public class PetAnnotationProcessor extends AbstractProcessor {
                 return false;
             }
             messager.printMessage(Diagnostic.Kind.NOTE,"process: +++:");
-
             Set<? extends Element> foodAnnotationSet = roundEnv.getElementsAnnotatedWith(PetFood.class);
-            messager.printMessage(Diagnostic.Kind.NOTE,"foodAnnotationSet: "+foodAnnotationSet);
+            messager.printMessage(Diagnostic.Kind.NOTE,"process: food: set:"+foodAnnotationSet);
             ArrayList<String> petFoodNames = new ArrayList<>();
-            for (Element element: foodAnnotationSet){
-                messager.printMessage(Diagnostic.Kind.NOTE,"process: food:"+element);
+            messager.printMessage(Diagnostic.Kind.NOTE,"process: food");
 
+            for (Element element: foodAnnotationSet){
+                messager.printMessage(Diagnostic.Kind.NOTE,"process:food 1:"+element);
+                messager.printMessage(Diagnostic.Kind.NOTE,"process:food 2:"+element.getEnclosingElement());
+                messager.printMessage(Diagnostic.Kind.NOTE,"process:food 3:"+element.getEnclosingElement().getSimpleName());
                 PetFood foodAnnotation = element.getAnnotation(PetFood.class);
                 String name = foodAnnotation.value();
                 petFoodNames.add(name);
-                messager.printMessage(Diagnostic.Kind.NOTE,"foodAnnotationSet:name: "+name);
 
             }
 
             Set<? extends Element> annotationSet = roundEnv.getElementsAnnotatedWith(Pet.class);
+            messager.printMessage(Diagnostic.Kind.NOTE,"process: pet: set:"+annotationSet);
+
             if (annotationSet == null || annotationSet.size() == 0){
                 return false;
             }
-            messager.printMessage(Diagnostic.Kind.NOTE,"process: start");
+            messager.printMessage(Diagnostic.Kind.NOTE,"process: pet");
             ArrayList<String> petNames = new ArrayList<>();
             for (Element element: annotationSet){
                 messager.printMessage(Diagnostic.Kind.NOTE,"process:pet:"+element);
+                messager.printMessage(Diagnostic.Kind.NOTE,"process:pet:"+element.getEnclosingElement());
 
                 Pet petAnnotation = element.getAnnotation(Pet.class);
                 String name = petAnnotation.Name();
